@@ -12,31 +12,14 @@ pipeline {
         }
         stage('Build & push Dockerfile') {
             steps {
-                sh "cd laravel-app"
-		    // Stop the running container if it exists
-            sh '''
-            docker stop laravel-container || true
-            '''
-
-            // Remove the stopped container
-            sh '''
-            docker rm laravel-container || true
-            '''
-
-            // Remove the old Docker image
-            sh '''
-            docker rmi bassam2080/laravel-app || true
-            '''
-
-            // Build the new Docker image
-            sh '''
-            docker build -t bassam2080/laravel-app .
-            '''
-
-            // Push the image to DockerHub
-            sh '''
-            docker push bassam2080/laravel-app
-            '''
+                  sh '''
+		        cd laravel-app
+		        docker stop laravel-container || true
+		        docker rm laravel-container || true
+		        docker rmi bassam2080/laravel-app || true
+		        docker build -t bassam2080/laravel-app .
+		        docker push bassam2080/laravel-app
+		        '''
             }
         }
         stage('Run Dockercompose playbook') {
