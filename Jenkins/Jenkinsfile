@@ -11,14 +11,19 @@ pipeline {
             }
         }
         stage('Build & push Dockerfile') {
-            steps   dir('laravel-app') {
-                sh 'ansible-playbook playbook.yml'
+            steps {
+                sh """
+                cd DevOps-Pipeline-PHP/laravel-app
+                ansible-playbook playbook.yml
+                """
             }
         }
         stage('Run Dockercompose playbook') {
-            steps   dir('laravel-app') {
-                sh 'ansible-playbook playbook-dcompose.yml' 
-               
+            steps {
+                sh """
+                cd DevOps-Pipeline-PHP/laravel-app
+                ansible-playbook playbook-dcompose.yml 
+                """
             }
         }
     }
